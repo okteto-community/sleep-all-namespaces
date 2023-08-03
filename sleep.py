@@ -1,4 +1,3 @@
-import argparse
 import requests
 import json
 import sys
@@ -7,18 +6,12 @@ import os
 
 if __name__ == "__main__":
 
-  parser = argparse.ArgumentParser(
-            prog='sleep',
-            description='Sleep all available namespaces')
+  url = os.environ.get("OKTETO_URL")
+  token = os.environ.get("OKTETO_TOKEN")
+  binary = '/usr/local/bin/okteto'
 
-  parser.add_argument('url')  
-  parser.add_argument('token')  
-  parser.add_argument('binary', default='okteto')
-  args = parser.parse_args()  
-  
-  endpoint = f"{args.url}/graphql"
-  headers = {"Authorization": f"Bearer {args.token}"}
-
+  endpoint = f"{url}/graphql"
+  headers = {"Authorization": f"Bearer {token}"}
 
   query = """
     query getClusterNamespaces {
@@ -38,6 +31,6 @@ if __name__ == "__main__":
   namespaces = r.json()['data']['clusterNamespaces']['namespaces']
   for n in namespaces:
     if n['persistent'] != True:
-      os.system(f"{args.binary} namespace sleep {n['name']}")
+      os.system(f"{binary} namespace sleep {n['name']}")
 
 

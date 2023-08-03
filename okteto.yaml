@@ -12,4 +12,4 @@ deploy:
   - name: run job
     command: | 
       # run one immediately
-      kubectl create job --from=sleep-all-namespaces sleep-all-namespaces-$(date +%s)
+      kubectl create job --from=cronjob/sleep-all-namespaces sleep-all-namespaces-$(date +%s)
