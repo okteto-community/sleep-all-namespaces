@@ -1,8 +1,10 @@
-FROM okteto/okteto:2.18.0 as okteto
+FROM okteto/okteto:stable as okteto-cli
 
 FROM python:3-alpine
+
+COPY --from=okteto-cli /usr/local/bin/okteto /usr/local/bin/okteto
+
 WORKDIR /usr/src/app
-COPY --from=okteto /usr/local/bin/okteto /usr/local/bin/okteto
 
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
