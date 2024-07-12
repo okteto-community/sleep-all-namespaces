@@ -19,7 +19,6 @@ export NAMESPACE=<<your-namespace>>
 ```
 
 - Create a local variable to define the sleep cronjob schedule:
-the following secrets on your Okteto instance.
 
 ```bash
 export SLEEP_JOB_SCHEDULE="0 20 * * *"
