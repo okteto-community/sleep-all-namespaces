@@ -29,5 +29,17 @@ export SLEEP_JOB_SCHEDULE="0 20 * * *"
 
 For example, 0 0 13 * 5 states that the task must be started every Friday at midnight, as well as on the 13th of each month at midnight.
 
-- Run `okteto deploy -n ${NAMESPACE} --var OKTETO_ADMIN_TOKEN=${OKTETO_ADMIN_TOKEN}` to build the image and create the cronjob.
+- Run the following command to create the cronjob:
 
+```bash
+okteto deploy -n ${NAMESPACE} --var OKTETO_ADMIN_TOKEN=${OKTETO_ADMIN_TOKEN} --var SLEEP_JOB_SCHEDULE=${SLEEP_JOB_SCHEDULE}
+```
+
+## Force the execution of the job
+
+To force the execution of the sleep namespaces job, run the following commands:
+
+```bash
+okteto kubeconfig
+kubectl -n ${NAMESPACE} create job --from=cronjob/sleep-all-namespaces sleep-all-namespaces-$(date +%s)
+```

@@ -3,9 +3,10 @@ build:
     context: .
 
 deploy:
-  - name: Create Secret
-    command: kubectl create secret generic sleep-secret --save-config --dry-run=client --from-literal=OKTETO_URL=https://${OKTETO_DOMAIN} --from-literal=OKTETO_TOKEN=${OKTETO_ADMIN_TOKEN} -oyaml | kubectl apply -f -
-
-  - name: Create Cronjob
-    command: |# we use cat so the manifest will pick up the image using the environment variables
-      envsubst < cronjob.yaml | kubectl apply -f -
+  remote: true
+  commands:
+    - name: Create Secret
+      command: kubectl create secret generic sleep-secret --save-config --dry-run=client --from-literal=OKTETO_URL=https://${OKTETO_DOMAIN} --from-literal=OKTETO_TOKEN=${OKTETO_ADMIN_TOKEN} -oyaml | kubectl apply -f -
+    - name: Create Cronjob
+      command: |# we use cat so the manifest will pick up the image using the environment variables
+        envsubst < cronjob.yaml | kubectl apply -f -
