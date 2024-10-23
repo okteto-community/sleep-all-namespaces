@@ -19,6 +19,7 @@ if __name__ == "__main__":
         namespaces {
         name
         persistent
+        status
         }
       }
     }
@@ -31,6 +32,7 @@ if __name__ == "__main__":
   namespaces = r.json()['data']['clusterNamespaces']['namespaces']
   for n in namespaces:
     if n['persistent'] != True:
-      os.system(f"{binary} namespace sleep {n['name']}")
-
-
+      if n['status'] == "Sleeping":
+        print(f"Namespace {n['name']} is already sleeping.")
+      else:
+        os.system(f"{binary} namespace sleep {n['name']}")
